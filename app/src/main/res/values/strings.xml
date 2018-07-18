@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Tip Calc</string>
+    <string name="check_amount_text">Check</string>
+    <string name="tip_amount_text">Tip</string>
+    <string name="total_amount_text">Total</string>
+    <string name="formatted_amount_text">$%1.2f</string>
+    <string name="action_save">Save</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="edit_tip_name_hint">Tip Location Name</string>
+    <string name="action_load">Load</string>
+</resources>
