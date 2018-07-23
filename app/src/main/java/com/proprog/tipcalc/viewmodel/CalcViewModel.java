@@ -35,7 +35,7 @@ public class CalcViewModel extends ViewModel {
     public CalcViewModel(Application application) {
         super(application);
         this.calculator = new RestaurantCalculator();
-        this.repositry = new TipCalculationRepositry();
+        this.repositry = new TipCalculationRepositry(application);
         updateOutput(new TipCalculations(0, 0, 0, 0));
     }
 
@@ -59,7 +59,7 @@ public class CalcViewModel extends ViewModel {
     }
 
     public LiveData<List<TipCalculationSummaryItem>> loadSavedTips() {
-        MutableLiveData<List<TipCalculations>> listMutableLiveData = repositry.loadSavedTips();
+        LiveData<List<TipCalculations>> listMutableLiveData = repositry.loadSavedTips();
         LiveData<List<TipCalculationSummaryItem>> liveData = Transformations.map(listMutableLiveData,
                 input -> {
                     List<TipCalculationSummaryItem> tipCalculationSummaryItemList
