@@ -17,6 +17,7 @@ import com.proprog.tipcalc.model.TipCalculations;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class CalcViewModel extends ViewModel {
     TipCalculationRepositry repositry;
@@ -78,7 +79,14 @@ public class CalcViewModel extends ViewModel {
 
     public void loadTip(String name) {
         Log.e("loadTip",name);
-        TipCalculations tc = repositry.loadTipByName(name);
+        TipCalculations tc = null;
+        try {
+            tc = repositry.loadTipByName(name);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (tc!=null){
             inputCheckAmount = String.valueOf(tc.getCheckAmount());
             inputTipPercentage = String.valueOf(tc.getTipPct());

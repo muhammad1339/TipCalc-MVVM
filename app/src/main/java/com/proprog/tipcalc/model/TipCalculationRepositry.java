@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class TipCalculationRepositry {
 
@@ -28,8 +29,8 @@ public class TipCalculationRepositry {
         new InsertTask().execute(tc);
     }
 
-    public TipCalculations loadTipByName(String locName) {
-        return dao.getSingleTip(locName);
+    public TipCalculations loadTipByName(String locName) throws ExecutionException, InterruptedException {
+        return new LoadByNameTask().execute(locName).get();
     }
 
     public LiveData<List<TipCalculations>> loadSavedTips() {
@@ -47,5 +48,16 @@ public class TipCalculationRepositry {
             dao.insertTip(tipCalculations[0]);
             return null;
         }
+    }
+
+
+    private class LoadByNameTask extends AsyncTask<String, Void, TipCalculations> {
+
+
+        @Override
+        protected TipCalculations doInBackground(String... strings) {
+            return dao.getSingleTip(strings[0]);
+        }
+
     }
 }
