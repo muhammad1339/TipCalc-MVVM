@@ -17,12 +17,10 @@ public class TipCalculationRepositry {
 
     private TipDAO dao;
     private TipDB db;
-//    Map<String, TipCalculations> calculationsMap;
 
     public TipCalculationRepositry(Application application) {
         db = TipDB.GET_DB_INSTANCE(application, false);
         dao = db.getTipDAO();
-//        calculationsMap = new HashMap<>();
     }
 
     public void saveTip(TipCalculations tc) {
@@ -34,11 +32,11 @@ public class TipCalculationRepositry {
     }
 
     public LiveData<List<TipCalculations>> loadSavedTips() {
-//        MutableLiveData<List<TipCalculations>> liveData = new MutableLiveData<>();
-//        List<TipCalculations> calculations = new ArrayList<>();
-//        calculations.addAll(calculationsMap.values());
-//        liveData.setValue(calculations);
         return dao.getAllTips();
+    }
+
+    public void delete(String tipName) {
+        new DeleteByNameTask().execute(tipName);
     }
 
     private class InsertTask extends AsyncTask<TipCalculations, Void, Void> {
@@ -50,13 +48,23 @@ public class TipCalculationRepositry {
         }
     }
 
-
     private class LoadByNameTask extends AsyncTask<String, Void, TipCalculations> {
 
 
         @Override
         protected TipCalculations doInBackground(String... strings) {
             return dao.getSingleTip(strings[0]);
+        }
+
+    }
+
+    private class DeleteByNameTask extends AsyncTask<String, Void, Void> {
+
+
+        @Override
+        protected Void doInBackground(String... strings) {
+            dao.deleteSingleTip(strings[0]);
+            return null;
         }
 
     }

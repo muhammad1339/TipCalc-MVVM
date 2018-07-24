@@ -24,6 +24,13 @@
             android:orientation="vertical"
             android:padding="12dp">
 
+            <ImageButton
+                android:id="@+id/btn_delete_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                app:srcCompat="@drawable/ic_action_delete" />
+
             <TextView
                 android:id="@+id/list_item_name"
                 style="@style/Base.TextAppearance.AppCompat.Large"

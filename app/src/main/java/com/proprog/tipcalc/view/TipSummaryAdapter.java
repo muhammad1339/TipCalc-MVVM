@@ -1,5 +1,6 @@
 package com.proprog.tipcalc.view;
 
+import android.app.Application;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
@@ -11,12 +12,12 @@ import android.view.ViewGroup;
 
 import com.proprog.tipcalc.R;
 import com.proprog.tipcalc.databinding.SavedListItemBinding;
+import com.proprog.tipcalc.model.TipCalculationRepositry;
 import com.proprog.tipcalc.viewmodel.TipCalculationSummaryItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.databinding.DataBindingUtil.inflate;
 
 public class TipSummaryAdapter extends RecyclerView.Adapter<TipSummaryAdapter.TipSummaryViewHolder> {
     interface ItemClickListener {
@@ -26,9 +27,11 @@ public class TipSummaryAdapter extends RecyclerView.Adapter<TipSummaryAdapter.Ti
     ArrayList<TipCalculationSummaryItem> items = new ArrayList<>();
     public String loc_name = "";
     ItemClickListener mCallback;
+    TipCalculationRepositry repositry;
 
     public TipSummaryAdapter(Context context) {
         mCallback = (ItemClickListener) context;
+        repositry = new TipCalculationRepositry((Application) context.getApplicationContext());
     }
 
     public void updateList(List<TipCalculationSummaryItem> itemsUpdated) {
@@ -49,11 +52,13 @@ public class TipSummaryAdapter extends RecyclerView.Adapter<TipSummaryAdapter.Ti
     public void onBindViewHolder(@NonNull TipSummaryViewHolder holder, int position) {
         TipCalculationSummaryItem item = items.get(position);
         holder.attachItem(item);
+        holder.binding.btnDeleteTip.setOnClickListener(v -> {
+            String name = item.tipName;
+            repositry.delete(name);
+        });
         holder.binding.getRoot().setOnClickListener(v -> {
             loc_name = item.tipName;
             mCallback.onItemClick(loc_name);
-            Log.e("TIPS-name", loc_name);
-            Log.e("TIPS-total", item.tipTotal);
         });
     }
 
@@ -68,7 +73,6 @@ public class TipSummaryAdapter extends RecyclerView.Adapter<TipSummaryAdapter.Ti
         public TipSummaryViewHolder(SavedListItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-
             binding.executePendingBindings();
         }
 

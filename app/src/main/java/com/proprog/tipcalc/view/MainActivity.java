@@ -64,13 +64,6 @@ public class MainActivity extends AppCompatActivity implements SaveDialogFragmen
         saveDialogFragment.show(getSupportFragmentManager(), "LoadDialogFragment");
     }
 
-//    @Override
-//    public void onTipClicked(String locName) {
-//        Log.e("onTipClicked",locName);
-//        Snackbar.make(mMainActivityBinding.getRoot(), "onTipClicked", Snackbar.LENGTH_SHORT).show();
-//        mMainActivityBinding.getVm().loadTip(locName);
-//    }
-
     @Override
     public void onSave(String locName) {
         mMainActivityBinding.getVm().saveTip(locName);

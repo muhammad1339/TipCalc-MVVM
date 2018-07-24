@@ -1,12 +1,8 @@
 package com.proprog.tipcalc.viewmodel;
 
 import android.app.Application;
-import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
-import android.databinding.BaseObservable;
-import android.databinding.Observable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -20,7 +16,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class CalcViewModel extends ViewModel {
-    TipCalculationRepositry repositry;
+    private TipCalculationRepositry repositry;
     public String inputCheckAmount = "";
     public String inputTipPercentage = "";
     private RestaurantCalculator calculator;
@@ -78,7 +74,7 @@ public class CalcViewModel extends ViewModel {
     }
 
     public void loadTip(String name) {
-        Log.e("loadTip",name);
+        Log.e("loadTip", name);
         TipCalculations tc = null;
         try {
             tc = repositry.loadTipByName(name);
@@ -87,13 +83,12 @@ public class CalcViewModel extends ViewModel {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (tc!=null){
+        if (tc != null) {
             inputCheckAmount = String.valueOf(tc.getCheckAmount());
             inputTipPercentage = String.valueOf(tc.getTipPct());
             updateOutput(tc);
         }
     }
-
 
     public void tipCalculator() {
         TipCalculations tipCalculations;
@@ -107,6 +102,5 @@ public class CalcViewModel extends ViewModel {
             updateOutput(tipCalculations);
         }
     }
-
 
 }
